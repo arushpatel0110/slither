@@ -3,13 +3,12 @@ export default class Menu extends Phaser.Scene {
         super({ key: 'Menu' });
         this.currentFaceIndex = 1;
         this.maxFaces = 7;
-    }
 
+    }
     preload() {
         this.load.image('logo', 'assets/logo.png');
         this.load.image('bg', 'assets/bg.jpg');
         this.load.image('start', 'assets/start.png');
-
 
         for (let i = 1; i <= this.maxFaces; i++) {
             this.load.image(`face${i}`, `assets/face${i}.png`);
@@ -17,18 +16,23 @@ export default class Menu extends Phaser.Scene {
     }
 
     create() {
-          const adElement = document.getElementById('banner-ad');
-  if (adElement) {
-    adElement.style.display = 'none';
-  }
+ if (window.injectAdSense && typeof window.injectAdSense === 'function') {
+  window.injectAdSense().then(() => {
+    console.log("Ad system ready");
+    window.gShowAd();
+  });
+} else {
+  console.warn("Ad system not available");
+}
+
         const width = this.scale.width;
         const height = this.scale.height;
         this.add.image(width / 2, height / 2, 'bg')
             .setDisplaySize(width, height)
             .setAlpha(0.6);
 
-        this.add.image(width / 2 - 800, height / 2 - 320, 'logo')
-            .setScale(0.4)
+        this.add.image(width / 2 - 630, height / 2 - 250, 'logo')
+            .setScale(0.3)
             .setDepth(2);
    
 this.createTitleText('Snake.IO', this.scale.width / 2 - 300, this.scale.height / 2 - 350);
@@ -88,9 +92,9 @@ this.tweens.add({
             this.changeFace(1);
         });
 
-        this.btn = this.add.image(width / 2 , height / 2 + 280, 'start')
+        this.btn = this.add.image(width / 2 , height / 2 + 240, 'start')
             .setScale(1)
-            .setAlpha(0.4)
+            .setAlpha(0.2)
             .setDepth(2);
 
         const validate = () => {
