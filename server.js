@@ -155,6 +155,7 @@ updateAndBroadcastLeaderboard();
         }
     });
     
+    
         socket.on('playerMovement', (data) => {
             if (players[socket.id]) {
                 players[socket.id].x = data.x;
@@ -218,6 +219,9 @@ socket.on('scoreUpdate', ({ playerId, score }) => {
     });
     });
 
-    server.listen(8080, () => {
-        console.log('Server listening on http://localhost:8080');
-    });
+const PORT = process.env.PORT || 8080;  
+server.listen(PORT, () => {
+    console.log(`Server listening on https://slither-fux5.onrender.com or http://localhost:${PORT}`);
+});
+
+
