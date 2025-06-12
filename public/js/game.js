@@ -19,22 +19,9 @@ export default class Game extends Phaser.Scene   {
          this.load.image('snake', 'assets/body1.png');
         const selectedFace = localStorage.getItem('selectedFace') || 'face1';
         this.load.image('selectedFace', `assets/${selectedFace}.png`);
-
     }
-
     create() {
-         this.showGoogleAd();
-
-        
- const adElement = document.getElementById('banner-ad');
-  if (adElement) {
-    adElement.style.display = 'block';
-    try {
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {
-      console.warn('Ad reload error:', e);
-    }
-  }
+          gPrerollAd();
 this.score = 0;  
 this.scoreText = this.add.text(10, 10, `Score: ${this.score}`, {
     fontSize: '24px',
@@ -43,10 +30,9 @@ this.scoreText = this.add.text(10, 10, `Score: ${this.score}`, {
     stroke: '#000',
     strokeThickness: 4
 }).setScrollFactor(0).setDepth(10);
-
         this.playerName = localStorage.getItem('playerName') || 'Player';
          const selectedFace = localStorage.getItem('selectedFace') || 'face1';
-        this.socket = io('http://localhost:8080',{
+        this.socket = io('https://slither-fux5.onrender.com',{
             query: { 
                 name: this.playerName ,
                 face:selectedFace
@@ -566,46 +552,4 @@ const newSegment = this.physics.add.image(lastSegment.x, lastSegment.y, 'snake')
     }
 
 }
-
-
-showGoogleAd() {
-  // Remove existing ad if it exists
-  const existingAd = document.getElementById('banner-ad');
-  if (existingAd) {
-    existingAd.remove(); // completely remove old ad
-  }
-
-  // Create new ad container
-  const adContainer = document.createElement('div');
-  adContainer.id = 'banner-ad';
-  adContainer.style.cssText = `
-    position: absolute;
-    top: 0;
-    width: 100%;
-    text-align: center;
-    z-index: 9999;
-  `;
-
-  // Set ad HTML
-  adContainer.innerHTML = `
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3479929222894971" crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-        style="display:inline-block;width:728px;height:90px"
-        data-ad-client="ca-pub-3479929222894971"
-        data-ad-slot="1234567890"></ins>
-  `;
-
-  // Append to body
-  document.body.appendChild(adContainer);
-
-  // Give DOM time to register the new <ins> tag before pushing
-  setTimeout(() => {
-    try {
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {
-      console.warn('Ad reload error:', e);
-    }
-  }, 100); // Small delay to ensure DOM is updated
-}
-
 }
