@@ -27,49 +27,48 @@
       height: 100%;
     }
   </style>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3479929222894971"
-     crossorigin="anonymous"></script>
+
+  <!-- ✅ AdSense script -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3479929222894971" crossorigin="anonymous"></script>
 </head>
 <body>
 
-
-  <div id="leaderboard" style="
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    width: 200px;
-    max-height: 400px;
-    overflow-y: auto; 
-    color: white;
-    padding: 10px;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    border-radius: 5px;
-    z-index: 1000;">
+  <!-- ✅ Leaderboard -->
+  <div id="leaderboard" style="position: fixed; top: 10px; right: 10px; width: 200px; max-height: 400px; overflow-y: auto; color: white; padding: 10px; font-family: Arial, sans-serif; font-size: 14px; border-radius: 5px; z-index: 1000;">
     <h3 style="margin-top: 0; font-size: 18px;">Leaderboard</h3>
     <ul id="leaderboard-list" style="list-style:none; padding-left:0; margin:0;"></ul>
   </div>
-<div id="ad-container" style="
-  position: absolute;
-  top: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999;
-">
-  <ins class="adsbygoogle"
-       style="display:inline-block;width:728px;height:90px"
-       data-ad-client="ca-pub-3479929222894971"
-       data-ad-slot="5291907390"></ins>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-</div>
 
+  <!-- ✅ Ad Container -->
+  <div id="ad-container" style="position: absolute; top: 60px; left: 50%; transform: translateX(-50%); z-index: 9999;">
+    <ins class="adsbygoogle"
+         id="ad-box"
+         style="display:inline-block;width:728px;height:90px"
+         data-ad-client="ca-pub-3479929222894971"
+         data-ad-slot="5291907390"></ins>
+  </div>
+
+  <!-- ✅ Game Container -->
   <div id="game-container"></div>
- <script src="js/googleads_sdk_v0.4.js"></script> 
-<script type="module" src="js/main.js"></script>
-<script type="module" src="js/menu.js"></script>
 
+  <!-- ✅ Initialize Ad -->
+  <script>
+    window.addEventListener("load", () => {
+      if (window.adsbygoogle && document.getElementById("ad-box")) {
+        try {
+          (adsbygoogle = window.adsbygoogle || []).push({});
+          console.log("AdSense ad initialized successfully");
+        } catch (e) {
+          console.warn("AdSense push failed:", e);
+        }
+      }
+    });
+  </script>
+
+  <!-- ✅ Game Scripts -->
+  <script src="js/googleads_sdk_v0.4.js"></script> 
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/menu.js"></script>
 
 </body>
 </html>
