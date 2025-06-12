@@ -7,50 +7,66 @@ async function injectAdSense() {
         const adScript = document.createElement('script');
         adScript.async = true;
         adScript.setAttribute('data-ad-client', 'ca-pub-3479929222894971');
-
         adScript.setAttribute('data-ad-slot', '5291907390');
         adScript.setAttribute('data-ad-frequency-hint', '30s');
         adScript.setAttribute('data-ad-format', 'auto');
         adScript.setAttribute('data-full-width-responsive', 'true');
     
         adScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+adScript.onload = async () => {
+  console.log("AdSense script loaded");
+  try {
+    await loadAd(); // ✅ wait for ad config
+    resolve();
+  } catch (e) {
+    reject(e);
+  }
+};
 
-        adScript.onload = () => {
-          console.log("AdSense script loaded");
-          loadAd();
-          resolve();
-        };
     
         document.body.appendChild(adScript);
       } else {
         console.log("AdSense script already loaded");
-        loadAd();  
-        resolve();
+    loadAd().then(resolve).catch(reject);
       }
     });
   }
   
-  function loadAd() {
-    return new Promise((resolve, reject) => {
+function loadAd() {
+  return new Promise((resolve, reject) => {
+const adContainer = document.createElement('ins'); 
+adContainer.className = "adsbygoogle";
+adContainer.style = "display:block";
+adContainer.setAttribute("data-ad-format", "auto");
+adContainer.setAttribute("data-full-width-responsive", "true");
+adContainer.setAttribute("data-ad-client", "ca-pub-3479929222894971");
+adContainer.setAttribute("data-ad-slot", "5291907390");
+ adContainer.setAttribute("data-adtest", "on");
+document.body.appendChild(adContainer);
 
-        const adContainer = document.createElement('ins');
-        adContainer.className = "adsbygoogle";
+    try {
+      if (typeof adBreak === "undefined") {
+  window.adBreak = window.adConfig = function (o) {
+    (window.adsbygoogle = window.adsbygoogle || []).push(o);
+  };
+}
+      adConfig({
+        sound: 'on',
+        preloadAdBreaks: 'on',
+        onReady: () => {
+          console.log("Ad system ready");
+          showAd();
+          resolve();
+        }
+      });
 
-        document.body.appendChild(adContainer);
-      
+    } catch (e) {
+      console.error("Failed to configure ads:", e);
+      reject(e);
+    }
+  });
+}
 
-        (adsbygoogle = window.adsbygoogle || []).push({});
-
-        adBreak = adConfig = function (o) {
-          adsbygoogle.push(o);
-        };
-        adConfig({
-          sound: 'on',
-          preloadAdBreaks: 'on',
-          onReady: showAd,
-        });
-    });
-  }
   
   function gShowAd({ onAdClosed = () => {}, onAdFailedToLoad = () => {}, onAdRewarded = () => {} } = {}) {
     console.log("show Ad");
